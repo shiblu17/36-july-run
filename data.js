@@ -1,3 +1,4 @@
+const dbVersion = "1785503002312";
 const registrations = [
   { tx: "DGI0H5BKSE", name: "Rajinur Piyal", email: "rajinurislam333@gmail.com", phone: "01785386704", size: "M", bib: "501", verify: "YES" },
   { tx: "ভুলে প্রথমে ৩০০৳ দিয়ে ফেলি DGI8H5CIGA পরে ৫০৳ দিয়েছি DGI2H5CETA", name: "Gulzar Islam Mahir", email: "gimahir25@gmail.com", phone: "01768173364", size: "L", bib: "502", verify: "YES" },

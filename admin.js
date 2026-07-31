@@ -108,19 +108,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Database loaders
     function loadDatabase() {
-        const localData = localStorage.getItem("registrations");
-        if (localData) {
-            db = JSON.parse(localData);
-        } else if (typeof registrations !== "undefined") {
+        const localVersion = localStorage.getItem("registrations_version");
+        const currentVersion = typeof dbVersion !== "undefined" ? dbVersion : "default";
+        
+        if (typeof registrations !== "undefined" && localVersion !== currentVersion && !(localVersion && localVersion.startsWith("custom-"))) {
             db = registrations;
-            saveDb();
+            saveDb(currentVersion);
         } else {
-            db = [];
+            const localData = localStorage.getItem("registrations");
+            if (localData) {
+                db = JSON.parse(localData);
+            } else if (typeof registrations !== "undefined") {
+                db = registrations;
+                saveDb(currentVersion);
+            } else {
+                db = [];
+            }
         }
     }
 
-    function saveDb() {
+    function saveDb(version = null) {
         localStorage.setItem("registrations", JSON.stringify(db));
+        if (version) {
+            localStorage.setItem("registrations_version", version);
+        } else {
+            localStorage.setItem("registrations_version", "custom-" + Date.now());
+        }
     }
 
     // Stats calculations
@@ -204,10 +217,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Sort database by BIB ascending before export
         const sortedDb = [...db].sort((a, b) => parseInt(a.bib) - parseInt(b.bib));
 
-        let fileContent = `const registrations = [\n`;
+        let fileContent = `const dbVersion = "${Date.now()}";\nconst registrations = [\n`;
         sortedDb.forEach((runner, idx) => {
             const comma = idx === sortedDb.length - 1 ? "" : ",";
-            fileContent += `  { tx: ${JSON.stringify(runner.tx)}, name: ${JSON.stringify(runner.name)}, email: ${JSON.stringify(runner.email)}, phone: ${JSON.stringify(runner.phone)}, size: ${JSON.stringify(runner.size)}, bib: ${JSON.stringify(runner.bib)} }${comma}\n`;
+            fileContent += `  { tx: ${JSON.stringify(runner.tx)}, name: ${JSON.stringify(runner.name)}, email: ${JSON.stringify(runner.email)}, phone: ${JSON.stringify(runner.phone)}, size: ${JSON.stringify(runner.size)}, bib: ${JSON.stringify(runner.bib)}, verify: ${JSON.stringify(runner.verify || "YES")} }${comma}\n`;
         });
         fileContent += `];\n\nif (typeof module !== 'undefined') {\n  module.exports = registrations;\n}\n`;
 

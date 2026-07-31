@@ -138,7 +138,7 @@ registrations.sort((a, b) => {
 });
 
 // Generate data.js content
-let fileContent = `const registrations = [\n`;
+let fileContent = `const dbVersion = "${Date.now()}";\nconst registrations = [\n`;
 registrations.forEach((runner, idx) => {
     const comma = idx === registrations.length - 1 ? "" : ",";
     fileContent += `  { tx: ${JSON.stringify(runner.tx)}, name: ${JSON.stringify(runner.name)}, email: ${JSON.stringify(runner.email)}, phone: ${JSON.stringify(runner.phone)}, size: ${JSON.stringify(runner.size)}, bib: ${JSON.stringify(runner.bib)}, verify: ${JSON.stringify(runner.verify)} }${comma}\n`;

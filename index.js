@@ -17,14 +17,25 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const btnTryAgain = document.getElementById("btnTryAgain");
 
-    // Database instance loading
+    // Database instance loading with cache busting version check
     let db = [];
-    const localData = localStorage.getItem("registrations");
-    if (localData) {
-        db = JSON.parse(localData);
-    } else if (typeof registrations !== "undefined") {
+    const localVersion = localStorage.getItem("registrations_version");
+    const currentVersion = typeof dbVersion !== "undefined" ? dbVersion : "default";
+    
+    if (typeof registrations !== "undefined" && localVersion !== currentVersion) {
+        // Reset local storage to match the updated data.js from server
         db = registrations;
         localStorage.setItem("registrations", JSON.stringify(db));
+        localStorage.setItem("registrations_version", currentVersion);
+    } else {
+        const localData = localStorage.getItem("registrations");
+        if (localData) {
+            db = JSON.parse(localData);
+        } else if (typeof registrations !== "undefined") {
+            db = registrations;
+            localStorage.setItem("registrations", JSON.stringify(db));
+            localStorage.setItem("registrations_version", currentVersion);
+        }
     }
 
     // Handle Form Submit
