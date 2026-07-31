@@ -1,4 +1,4 @@
-const dbVersion = "1785503331512";
+const dbVersion = "1785504743780";
 const registrations = [
   { tx: "", name: "Rajinur Piyal", email: "rajinurislam333@gmail.com", phone: "01785386704", size: "M", bib: "5001", verify: "YES" },
   { tx: "", name: "Gulzar Islam Mahir", email: "gimahir25@gmail.com", phone: "01768173364", size: "L", bib: "5002", verify: "YES" },
@@ -79,7 +79,6 @@ const registrations = [
   { tx: "", name: "Moien Jahan Olive", email: "moien.53@geography-juniv.edu.bd", phone: "01641946946", size: "2XL", bib: "5077", verify: "YES" },
   { tx: "", name: "Md. Ramij Uddin Raja", email: "ramijraja2901@gmail.com", phone: "01887484642", size: "L", bib: "5078", verify: "YES" },
   { tx: "", name: "Ahmad Abdullah", email: "ahmad.abdullah.3199@gmail.com", phone: "01341613171", size: "2XL", bib: "5079", verify: "YES" },
-  { tx: "", name: "Tanvir Ahmed Shuvo", email: "tanvirahmedshuvoju@gmail.com", phone: "01859874226", size: "2XL", bib: "5080", verify: "YES" },
   { tx: "", name: "Tanvir Ahmed Shuvo", email: "tanvirahmedshuvoju@gmail.com", phone: "01859874226", size: "2XL", bib: "5081", verify: "YES" },
   { tx: "", name: "Sheikh Mahabub Hasan Robin", email: "s.k.mhr001@gmail.com", phone: "01700640682", size: "2XL", bib: "5082", verify: "YES" },
   { tx: "", name: "KABBO", email: "d.mkabbomondal@gmail.com", phone: "01787773063", size: "L", bib: "5083", verify: "YES" },
@@ -254,7 +253,6 @@ const registrations = [
   { tx: "", name: "Abdullah Mahmud Sajid", email: "sajidjm30@gmail.com", phone: "01933661848", size: "XL", bib: "5252", verify: "YES" },
   { tx: "", name: "Sadman Sakib Zisan", email: "sadmansakibzisan12345@gmail.com", phone: "8801410454048", size: "I don’t know", bib: "5253", verify: "YES" },
   { tx: "", name: "Emam Hossain Imran", email: "imran71100@gmail.com", phone: "01628585959", size: "XL", bib: "5254", verify: "YES" },
-  { tx: "", name: "Tanvir Ahmed Shishir", email: "tanvir.a.shishir@gmail.com", phone: "01913199932", size: "2XL", bib: "5255", verify: "YES" },
   { tx: "", name: "Saraf Nower Prionty", email: "priontysaraf@gmail.com", phone: "01743832397", size: "L", bib: "5256", verify: "YES" },
   { tx: "", name: "Tanvir Ahmed Shishir", email: "tanvir.a.shishir@gmail.com", phone: "01913199932", size: "2XL", bib: "5257", verify: "YES" },
   { tx: "", name: "Ruhanita Huq", email: "ruhanitahuq8@gmail.com", phone: "01841454541", size: "xl", bib: "5258", verify: "YES" },
