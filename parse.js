@@ -1,16 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-// Read sheet.csv
-const csvPath = path.join(__dirname, 'sheet.csv');
-const csvContent = fs.readFileSync(csvPath, 'utf8');
+// Read files
+const verifiedPath = path.join(__dirname, 'verified.csv');
+const sheetPath = path.join(__dirname, 'sheet.csv');
+
+const verifiedContent = fs.readFileSync(verifiedPath, 'utf8');
+const sheetContent = fs.readFileSync(sheetPath, 'utf8');
 
 // Parse CSV lines handling double quotes and commas inside them
 function parseCSV(content) {
     const lines = content.split(/\r?\n/);
     const result = [];
     
-    // Skip header line
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
@@ -37,14 +39,51 @@ function parseCSV(content) {
     return result;
 }
 
-const rows = parseCSV(csvContent);
-console.log(`Parsed ${rows.length} rows.`);
+const verifiedRows = parseCSV(verifiedContent);
+const sheetRows = parseCSV(sheetContent);
 
-let bibCounter = 501;
+console.log(`Parsed ${verifiedRows.length} verified rows.`);
+console.log(`Parsed ${sheetRows.length} total form response rows.`);
+
 const registrations = [];
+const verifiedPhones = new Set();
 
-rows.forEach((row, index) => {
-    // Columns mapping:
+// 1. Process Verified List
+verifiedRows.forEach((row) => {
+    // 0: Transaction ID
+    // 1: Name
+    // 2: Email
+    // 3: Phone Number
+    // 4: Size
+    // 5: BIB NUMBER
+    
+    const tx = (row[0] || "").trim();
+    const name = (row[1] || "").trim();
+    const email = (row[2] || "").trim();
+    const phone = (row[3] || "").trim();
+    const size = (row[4] || "").trim();
+    const bib = (row[5] || "").trim();
+    
+    registrations.push({
+        tx: tx,
+        name: name,
+        email: email,
+        phone: phone,
+        size: size,
+        bib: bib,
+        verify: "YES"
+    });
+    
+    // Add cleaned phone to set to prevent duplicate entry for pending search
+    const cleanPhone = phone.replace(/\D/g, "");
+    if (cleanPhone) {
+        verifiedPhones.add(cleanPhone);
+    }
+});
+
+// 2. Process Form Responses (for Pending Verification Status)
+let pendingCount = 0;
+sheetRows.forEach((row) => {
     // 0: Timestamp
     // 1: Transaction ID / Bkash detail
     // 2: Name
@@ -56,47 +95,46 @@ rows.forEach((row, index) => {
     // 8: Comments
     // 9: Verify (YES or NO)
     
-    const txRaw = row[1] || "";
-    const name = row[2] || "Unnamed Runner";
-    const email = row[5] || "";
-    const phone = row[6] || "";
-    const size = row[7] || "L";
-    const verify = (row[9] || "").toUpperCase().trim();
+    const txRaw = (row[1] || "").trim();
+    const name = (row[2] || "").trim();
+    const email = (row[5] || "").trim();
+    const phone = (row[6] || "").trim();
+    const size = (row[7] || "").trim();
+    const verify = (row[9] || "NO").toUpperCase().trim();
     
-    // Extract a clean transaction ID from the raw input if it's long, or keep it
-    let tx = txRaw;
-    if (txRaw.length > 20) {
-        // Try to find a transaction ID pattern (usually letters and numbers, e.g. DGI0H5BKSE)
-        const match = txRaw.match(/[A-Z0-9]{8,12}/i);
-        if (match) {
-            tx = match[0];
+    const cleanPhone = phone.replace(/\D/g, "");
+    
+    // If the phone is NOT in the verified list, they are pending
+    if (cleanPhone && !verifiedPhones.has(cleanPhone)) {
+        // Clean Transaction ID
+        let tx = txRaw;
+        if (txRaw.length > 20) {
+            const match = txRaw.match(/[A-Z0-9]{8,12}/i);
+            if (match) tx = match[0];
         }
+        
+        registrations.push({
+            tx: tx,
+            name: name,
+            email: email,
+            phone: phone,
+            size: size,
+            bib: "",
+            verify: "NO"
+        });
+        pendingCount++;
     }
-    
-    // Assign BIB if verified
-    let bib = "";
-    if (verify === "YES") {
-        bib = bibCounter.toString();
-        bibCounter++;
-    }
-    
-    registrations.push({
-        tx: tx,
-        name: name,
-        email: email,
-        phone: phone,
-        size: size,
-        bib: bib,
-        verify: verify // Add verify status (YES or NO)
-    });
 });
 
-// Sort by BIB ascending for verified ones, then unverified ones
+console.log(`Added ${pendingCount} pending/unverified registrations.`);
+
+// Sort by BIB ascending for verified ones, then pending ones
 registrations.sort((a, b) => {
     if (a.bib && b.bib) return parseInt(a.bib) - parseInt(b.bib);
     if (a.bib) return -1;
     if (b.bib) return 1;
-    return 0;
+    // Both pending, sort by name
+    return a.name.localeCompare(b.name);
 });
 
 // Generate data.js content
@@ -111,5 +149,6 @@ fileContent += `];\n\nif (typeof module !== 'undefined') {\n  module.exports = r
 const outputPath = path.join(__dirname, 'data.js');
 fs.writeFileSync(outputPath, fileContent, 'utf8');
 
-console.log(`Generated data.js successfully with ${registrations.length} registrations.`);
-console.log(`Last BIB Number assigned: ${bibCounter - 1}`);
+console.log(`Generated data.js successfully with a total of ${registrations.length} registrations.`);
+console.log(`- Verified (with official BIB numbers): ${verifiedRows.length}`);
+console.log(`- Pending (without BIB numbers): ${pendingCount}`);
