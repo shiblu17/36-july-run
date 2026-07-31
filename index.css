@@ -652,3 +652,45 @@ body {
 .hidden {
     display: none !important;
 }
+
+/* Event Details Box in Success Card */
+.event-details-box {
+    background: rgba(249, 115, 22, 0.05);
+    border: 1px dashed rgba(249, 115, 22, 0.25);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.05);
+}
+
+.event-box-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-orange);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.event-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.event-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #e2e8f0;
+}
+
+.event-box-icon {
+    font-size: 1rem;
+    color: var(--accent-orange);
+    width: 16px;
+    text-align: center;
+}
