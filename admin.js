@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const name = document.getElementById("runnerName").value.trim();
         const phone = document.getElementById("runnerPhone").value.trim();
         const email = document.getElementById("runnerEmail").value.trim() || "";
-        const tx = document.getElementById("runnerTx").value.trim() || "";
         const bib = document.getElementById("runnerBib").value.trim();
         const size = document.getElementById("runnerSize").value;
 
@@ -75,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const newRunner = { tx, name, email, phone, size, bib };
+        const newRunner = { tx: "", name, email, phone, size, bib };
         db.push(newRunner);
         saveDb();
         
@@ -159,8 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
             filteredDb = db.filter(r => 
                 (r.name && r.name.toLowerCase().includes(cleanFilter)) ||
                 (r.phone && r.phone.includes(cleanFilter)) ||
-                (r.bib && r.bib.includes(cleanFilter)) ||
-                (r.tx && r.tx.toLowerCase().includes(cleanFilter))
+                (r.bib && r.bib.includes(cleanFilter))
             );
         }
 
@@ -168,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
         filteredDb.sort((a, b) => parseInt(a.bib) - parseInt(b.bib));
 
         if (filteredDb.length === 0) {
-            runnersTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">কোনো রেকর্ড পাওয়া যায়নি।</td></tr>`;
+            runnersTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">কোনো রেকর্ড পাওয়া যায়নি।</td></tr>`;
             return;
         }
 
@@ -180,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${runner.phone || "N/A"}</td>
                 <td><span class="tshirt-badge">${runner.size || "N/A"}</span></td>
                 <td>${runner.email || "N/A"}</td>
-                <td><code>${runner.tx || "N/A"}</code></td>
                 <td>
                     <button class="btn-delete" data-bib="${runner.bib}" title="মুছে ফেলুন">
                         <i class="fa-solid fa-trash-can"></i>

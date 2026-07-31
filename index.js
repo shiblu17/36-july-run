@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const participantName = document.getElementById("participantName");
     const detailPhone = document.getElementById("detailPhone");
     const detailEmail = document.getElementById("detailEmail");
-    const detailTx = document.getElementById("detailTx");
     const bibDisplay = document.getElementById("bibDisplay");
     const tshirtSizeDisplay = document.getElementById("tshirtSizeDisplay");
     
@@ -116,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
         participantName.textContent = result.name || "N/A";
         detailPhone.textContent = maskPhoneNumber(result.phone);
         detailEmail.textContent = maskEmail(result.email);
-        detailTx.textContent = maskTxId(result.tx);
         tshirtSizeDisplay.textContent = result.size || "L";
 
         // Handle BIB display and Verification Status Badge dynamically
@@ -191,12 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return local.substring(0, 2) + "***" + local.substring(local.length - 1) + "@" + domain;
     }
 
-    function maskTxId(tx) {
-        if (!tx) return "N/A";
-        if (tx.length <= 4) return tx;
-        // e.g. DGI0H5BKSE -> DGI0***KSE
-        return tx.substring(0, 4) + "***" + tx.substring(tx.length - 3);
-    }
 
     // Confetti Animation Burst
     function triggerConfetti() {
