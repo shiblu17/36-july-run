@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultsSection = document.getElementById("resultsSection");
     const successCard = document.getElementById("successCard");
     const notFoundCard = document.getElementById("notFoundCard");
+    const multipleResultsCard = document.getElementById("multipleResultsCard");
+    const multipleNamesList = document.getElementById("multipleNamesList");
     
     // Result displays
     const participantName = document.getElementById("participantName");
@@ -32,31 +34,58 @@ document.addEventListener("DOMContentLoaded", () => {
         const query = phoneInput.value.trim();
         if (!query) return;
 
-        // Perform Search
-        const result = findRegistration(query);
+        // Perform Search (returns list of matches)
+        const results = findRegistrations(query);
 
         // Show Results section
         resultsSection.classList.remove("hidden");
 
-        if (result) {
-            // Populate data
-            participantName.textContent = result.name || "N/A";
-            detailPhone.textContent = maskPhoneNumber(result.phone);
-            detailEmail.textContent = maskEmail(result.email);
-            detailTx.textContent = maskTxId(result.tx);
-            bibDisplay.textContent = result.bib || "---";
-            tshirtSizeDisplay.textContent = result.size || "L";
-            
-            // Toggle visibility
-            successCard.classList.remove("hidden");
-            notFoundCard.classList.add("hidden");
-            
-            // Fire Confetti!
-            triggerConfetti();
-        } else {
-            // Toggle visibility
+        if (results.length === 0) {
+            // Not Found
             successCard.classList.add("hidden");
+            multipleResultsCard.classList.add("hidden");
             notFoundCard.classList.remove("hidden");
+        } else if (results.length === 1) {
+            // Single Match found
+            multipleResultsCard.classList.add("hidden");
+            notFoundCard.classList.add("hidden");
+            successCard.classList.remove("hidden");
+            displayRegistration(results[0]);
+        } else {
+            // Multiple Matches found
+            successCard.classList.add("hidden");
+            notFoundCard.classList.add("hidden");
+            multipleResultsCard.classList.remove("hidden");
+            
+            // Build Select list
+            multipleNamesList.innerHTML = "";
+            results.forEach(runner => {
+                const btn = document.createElement("button");
+                btn.className = "btn-runner-select";
+                
+                const metaText = runner.bib 
+                    ? `বিআইবি: ${runner.bib} | সাইজ: ${runner.size}` 
+                    : `ভেরিফিকেশন পেন্ডিং | সাইজ: ${runner.size}`;
+                
+                btn.innerHTML = `
+                    <div class="runner-select-info">
+                        <span class="runner-select-name">${runner.name}</span>
+                        <span class="runner-select-meta">${metaText}</span>
+                    </div>
+                    <div class="runner-select-action">
+                        <span>নির্বাচন করুন</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                `;
+                
+                btn.addEventListener("click", () => {
+                    multipleResultsCard.classList.add("hidden");
+                    successCard.classList.remove("hidden");
+                    displayRegistration(runner);
+                });
+                
+                multipleNamesList.appendChild(btn);
+            });
         }
         
         // Scroll results into view smoothly
@@ -70,14 +99,46 @@ document.addEventListener("DOMContentLoaded", () => {
         phoneInput.focus();
     });
 
+    // Display Registration Data
+    function displayRegistration(result) {
+        // Populate data
+        participantName.textContent = result.name || "N/A";
+        detailPhone.textContent = maskPhoneNumber(result.phone);
+        detailEmail.textContent = maskEmail(result.email);
+        detailTx.textContent = maskTxId(result.tx);
+        tshirtSizeDisplay.textContent = result.size || "L";
+
+        // Handle BIB display and Verification Status Badge dynamically
+        const statusBadge = document.getElementById("statusBadge");
+        const statusIcon = document.getElementById("statusIcon");
+        const statusText = document.getElementById("statusText");
+        
+        if (result.verify === "YES" && result.bib) {
+            // Registration Successful
+            statusBadge.className = "status-badge success animate-pulse";
+            statusIcon.className = "fa-solid fa-circle-check";
+            statusText.textContent = "রেজিস্ট্রেশন সফল হয়েছে";
+            bibDisplay.textContent = result.bib;
+            
+            // Fire Confetti!
+            triggerConfetti();
+        } else {
+            // Registration Pending Verification
+            statusBadge.className = "status-badge pending animate-pulse";
+            statusIcon.className = "fa-solid fa-triangle-exclamation";
+            statusText.textContent = "ভেরিফিকেশন পেন্ডিং";
+            bibDisplay.textContent = "PENDING";
+        }
+    }
+
     // Search logic helper
-    function findRegistration(query) {
+    function findRegistrations(query) {
         // Strip everything except numbers from search query
         const cleanQuery = query.replace(/\D/g, "");
-        if (!cleanQuery) return null;
+        if (!cleanQuery) return [];
 
         // Search in loaded db instance
-        return db.find(runner => {
+        return db.filter(runner => {
             const cleanRunnerPhone = runner.phone.replace(/\D/g, "");
             if (!cleanRunnerPhone) return false;
 

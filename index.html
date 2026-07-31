@@ -56,14 +56,29 @@
                 </form>
             </section>
 
-            <!-- Results Section (Initially Hidden) -->
             <section id="resultsSection" class="results-section hidden">
-                <!-- Success Card -->
+                <!-- Multiple Results Card -->
+                <div id="multipleResultsCard" class="result-card warning-card hidden">
+                    <div class="card-header">
+                        <div class="status-badge warning">
+                            <i class="fa-solid fa-users-viewfinder"></i>
+                            <span>একাধিক রেজিস্ট্রেশন পাওয়া গেছে</span>
+                        </div>
+                    </div>
+                    <div class="card-body-simple">
+                        <p class="multiple-instruction">এই ফোন নম্বরে একাধিক রেজিস্ট্রেশন পাওয়া গেছে। আপনার নির্দিষ্ট কার্ডটি দেখতে নামের উপর ক্লিক করুন:</p>
+                        <div id="multipleNamesList" class="multiple-names-list">
+                            <!-- Dynamic runner select buttons go here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success/Pending Card -->
                 <div id="successCard" class="result-card success-card">
                     <div class="card-header">
-                        <div class="status-badge success animate-pulse">
-                            <i class="fa-solid fa-circle-check"></i>
-                            <span>রেজিস্ট্রেশন সফল হয়েছে</span>
+                        <div id="statusBadge" class="status-badge success animate-pulse">
+                            <i id="statusIcon" class="fa-solid fa-circle-check"></i>
+                            <span id="statusText">রেজিস্ট্রেশন সফল হয়েছে</span>
                         </div>
                     </div>
                     
