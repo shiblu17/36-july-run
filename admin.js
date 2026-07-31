@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const runnersTableBody = document.getElementById("runnersTableBody");
 
     // Default password
-    const ADMIN_PASSWORD = "admin123";
+    const ADMIN_PASSWORD = "SHIBLU17";
     
     // Database instance
     let db = [];
