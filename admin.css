@@ -1,4 +1,4 @@
-/* Admin Dashboard Styling */
+/* Admin Dashboard Styling (JAKSU Red & Green Light Theme) */
 
 .admin-container {
     max-width: 1200px !important;
@@ -7,8 +7,9 @@
 .auth-card {
     max-width: 450px;
     margin: 3rem auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    box-shadow: 0 20px 40px rgba(0, 106, 78, 0.08);
 }
 
 .section-title {
@@ -19,7 +20,7 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    color: #ffffff;
+    color: var(--jaksu-green);
 }
 
 .input-group {
@@ -32,7 +33,7 @@
 .input-group label {
     font-size: 0.85rem;
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .w-full {
@@ -44,7 +45,7 @@
 }
 
 .text-orange {
-    color: var(--accent-orange) !important;
+    color: var(--flag-red) !important;
 }
 
 .text-success {
@@ -64,21 +65,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(15, 23, 42, 0.4);
+    background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 1rem 1.5rem;
     margin-bottom: 2rem;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 106, 78, 0.03);
 }
 
 .toolbar-welcome {
     font-size: 1rem;
-    color: #e2e8f0;
+    color: var(--text-primary);
 }
 
 .toolbar-welcome strong {
-    color: var(--accent-orange);
+    color: var(--jaksu-green);
 }
 
 .toolbar-actions {
@@ -95,26 +96,26 @@
 }
 
 .stat-card {
-    background: rgba(30, 41, 59, 0.35);
+    background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: 18px;
     padding: 1.25rem 1.75rem;
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 106, 78, 0.03);
 }
 
 .stat-card .stat-icon {
     font-size: 2.2rem;
-    color: var(--accent-blue);
+    color: var(--jaksu-green);
 }
 
 .stat-value {
     font-family: var(--font-heading);
     font-size: 2rem;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text-primary);
     display: block;
     line-height: 1.2;
 }
@@ -142,7 +143,8 @@
 .form-card {
     padding: 2rem;
     align-self: start;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    background: #ffffff;
 }
 
 .form-row {
@@ -175,11 +177,11 @@
 }
 
 .form-group input, .form-group select {
-    background: rgba(15, 23, 42, 0.7);
+    background: #f8fafc;
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 0.75rem 1rem;
-    color: #ffffff;
+    color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 0.95rem;
     outline: none;
@@ -187,19 +189,21 @@
 }
 
 .form-group input:focus, .form-group select:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+    border-color: var(--jaksu-green);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px var(--jaksu-green-glow);
 }
 
 .form-group select option {
-    background: #0f172a;
-    color: #ffffff;
+    background: #ffffff;
+    color: var(--text-primary);
 }
 
 /* Runners Table Card */
 .table-card {
     padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    background: #ffffff;
 }
 
 .table-header-area {
@@ -214,7 +218,7 @@
 .table-search-wrapper {
     display: flex;
     align-items: center;
-    background: rgba(15, 23, 42, 0.6);
+    background: #f8fafc;
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 0.5rem 1rem;
@@ -224,8 +228,9 @@
 }
 
 .table-search-wrapper:focus-within {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+    border-color: var(--jaksu-green);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px var(--jaksu-green-glow);
 }
 
 .table-search-icon {
@@ -238,7 +243,7 @@
     background: transparent;
     border: none;
     outline: none;
-    color: #ffffff;
+    color: var(--text-primary);
     font-size: 0.9rem;
     width: 100%;
 }
@@ -248,7 +253,7 @@
     overflow-x: auto;
     border-radius: 12px;
     border: 1px solid var(--border-color);
-    background: rgba(15, 23, 42, 0.4);
+    background: #ffffff;
 }
 
 .runners-table {
@@ -265,10 +270,10 @@
 }
 
 .runners-table th {
-    background: rgba(15, 23, 42, 0.8);
+    background: #f8fafc;
     font-family: var(--font-heading);
     font-weight: 700;
-    color: #ffffff;
+    color: var(--jaksu-green);
     text-transform: uppercase;
     font-size: 0.8rem;
     letter-spacing: 0.5px;
@@ -279,15 +284,24 @@
 }
 
 .runners-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: #f8fafc;
 }
 
 .runners-table td {
-    color: #cbd5e1;
+    color: var(--text-muted);
 }
 
 .runners-table td strong {
-    color: #ffffff;
+    color: var(--text-primary);
+}
+
+.tshirt-badge {
+    background: var(--jaksu-green-glow);
+    color: var(--jaksu-green);
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
 }
 
 .btn-delete {
@@ -302,7 +316,7 @@
 }
 
 .btn-delete:hover {
-    background: rgba(239, 68, 68, 0.15);
+    background: var(--error-red-glow);
     transform: scale(1.1);
 }
 
@@ -323,7 +337,7 @@
 }
 
 .back-link:hover {
-    color: var(--accent-orange);
+    color: var(--flag-red);
     transform: translateX(-3px);
 }
 
