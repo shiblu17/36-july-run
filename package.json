@@ -1,0 +1,10 @@
+{
+  "name": "36-july-run-checker",
+  "version": "1.0.0",
+  "description": "Registration checker for 36 July Run",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y http-server -p 3000"
+  },
+  "dependencies": {}
+}

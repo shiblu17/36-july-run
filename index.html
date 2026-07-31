@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>36 July Run - Registration Status Checker</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <i class="fa-solid fa-person-running runner-icon animate-run"></i>
+                <span class="logo-text">36 <span class="highlight">July Run</span></span>
+            </div>
+            <h1 class="main-title">রেজিস্ট্রেশন স্ট্যাটাস ও বিআইবি চেকার</h1>
+            <p class="subtitle">আপনার ফোন নম্বর দিয়ে সার্চ করে আপনার BIB নম্বর, টি-শার্টের সাইজ এবং রেজিস্ট্রেশন স্ট্যাটাস দেখে নিন।</p>
+        </header>
+
+        <!-- Main Card Container -->
+        <main class="main-card">
+            <!-- Search Section -->
+            <section class="search-section">
+                <form id="searchForm" class="search-form">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-phone phone-input-icon"></i>
+                        <input 
+                            type="tel" 
+                            id="phoneInput" 
+                            placeholder="আপনার ফোন নম্বরটি লিখুন (যেমন: 017XXXXXXXX)" 
+                            required
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="btn-search">
+                            <span>খুঁজুন</span>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Section (Initially Hidden) -->
+            <section id="resultsSection" class="results-section hidden">
+                <!-- Success Card -->
+                <div id="successCard" class="result-card success-card">
+                    <div class="card-header">
+                        <div class="status-badge success animate-pulse">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>রেজিস্ট্রেশন সফল হয়েছে</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Left: Info -->
+                        <div class="info-pane">
+                            <div class="user-profile">
+                                <div class="avatar">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="user-details">
+                                    <h2 id="participantName" class="user-name">Loading...</h2>
+                                    <p class="user-role">অংশগ্রহণকারী (Participant)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label">ফোন নম্বর</span>
+                                    <span id="detailPhone" class="detail-val">Loading...</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">ইমেইল</span>
+                                    <span id="detailEmail" class="detail-val">Loading...</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">ট্রানজেকশন আইডি</span>
+                                    <span id="detailTx" class="detail-val">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: BIB and Shirt -->
+                        <div class="assets-pane">
+                            <!-- BIB Card -->
+                            <div class="bib-container">
+                                <span class="bib-tag">YOUR BIB NUMBER</span>
+                                <div id="bibDisplay" class="bib-number">---</div>
+                                <div class="bib-footer">
+                                    <span>36 JULY RUN</span>
+                                    <i class="fa-solid fa-person-running"></i>
+                                </div>
+                            </div>
+
+                            <!-- T-Shirt Size Display -->
+                            <div class="tshirt-display">
+                                <span class="tshirt-label">টি-শার্ট সাইজ</span>
+                                <div class="tshirt-wrapper">
+                                    <!-- Dynamic T-Shirt SVG -->
+                                    <svg class="tshirt-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M 30,10 L 40,22 L 50,15 L 60,22 L 70,10 L 90,25 L 80,40 L 75,38 L 75,90 L 25,90 L 25,38 L 20,40 L 10,25 Z" class="tshirt-body" />
+                                        <text x="50" y="62" class="tshirt-size-text" id="tshirtSizeDisplay">L</text>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Not Found Card -->
+                <div id="notFoundCard" class="result-card error-card hidden">
+                    <div class="error-icon">
+                        <i class="fa-solid fa-triangle-exclamation animate-bounce"></i>
+                    </div>
+                    <h2 class="error-title">রেজিস্ট্রেশন পাওয়া যায়নি!</h2>
+                    <p class="error-msg">দুঃখিত, আপনার প্রদানকৃত ফোন নম্বরটি দিয়ে কোনো রেজিস্ট্রেশন খুঁজে পাওয়া যায়নি। অনুগ্রহ করে সঠিক ফোন নম্বর দিয়ে পুনরায় চেষ্টা করুন অথবা কর্তৃপক্ষের সাথে যোগাযোগ করুন।</p>
+                    <div class="error-actions">
+                        <button id="btnTryAgain" class="btn btn-secondary">আবার চেষ্টা করুন</button>
+                        <a href="https://wa.me/+8801701584980" target="_blank" class="btn btn-primary whatsapp-btn">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span>হোয়াটসঅ্যাপে যোগাযোগ করুন</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Stats Counter Panel -->
+        <section class="stats-panel">
+            <div class="stat-item">
+                <i class="fa-solid fa-users stat-icon"></i>
+                <div class="stat-info">
+                    <span class="stat-number">৩৫২+</span>
+                    <span class="stat-label">মোট নিবন্ধিত রানার</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-calendar-days stat-icon"></i>
+                <div class="stat-info">
+                    <span class="stat-number">৩৬ জুলাই</span>
+                    <span class="stat-label">ম্যারাথন ইভেন্ট</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 36 July Run. All rights reserved.</p>
+            <p class="designer-tag">Designed with <i class="fa-solid fa-heart heart-icon"></i> for athletic excellence</p>
+        </footer>
+    </div>
+
+    <!-- Data & Scripts -->
+    <script src="data.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
