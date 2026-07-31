@@ -15,6 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const btnTryAgain = document.getElementById("btnTryAgain");
 
+    // Database instance loading
+    let db = [];
+    const localData = localStorage.getItem("registrations");
+    if (localData) {
+        db = JSON.parse(localData);
+    } else if (typeof registrations !== "undefined") {
+        db = registrations;
+        localStorage.setItem("registrations", JSON.stringify(db));
+    }
+
     // Handle Form Submit
     searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -66,14 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const cleanQuery = query.replace(/\D/g, "");
         if (!cleanQuery) return null;
 
-        // Search in registrations database (data.js)
-        // Check if global registrations exists
-        if (typeof registrations === "undefined") {
-            console.error("Registrations database not loaded.");
-            return null;
-        }
-
-        return registrations.find(runner => {
+        // Search in loaded db instance
+        return db.find(runner => {
             const cleanRunnerPhone = runner.phone.replace(/\D/g, "");
             if (!cleanRunnerPhone) return false;
 

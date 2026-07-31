@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - 36 July Run</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Background Glows -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    
+    <div class="container admin-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <i class="fa-solid fa-user-gear runner-icon"></i>
+                <span class="logo-text">Admin <span class="highlight">Panel</span></span>
+            </div>
+            <p class="subtitle">৩৬ জুলাই ম্যারাথন রেজিস্ট্রেশন ম্যানেজমেন্ট</p>
+        </header>
+
+        <!-- Login Card (Shown by Default) -->
+        <div id="loginCard" class="main-card auth-card">
+            <h2 class="section-title"><i class="fa-solid fa-lock"></i> এডমিন লগইন</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="passwordInput">পাসওয়ার্ড লিখুন</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-key phone-input-icon"></i>
+                        <input type="password" id="passwordInput" placeholder="Password (ডিফল্ট: admin123)" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-search w-full">
+                    <span>প্রবেশ করুন</span>
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                </button>
+                <p id="authError" class="auth-error-msg hidden">ভুল পাসওয়ার্ড! অনুগ্রহ করে আবার চেষ্টা করুন।</p>
+            </form>
+        </div>
+
+        <!-- Dashboard Wrapper (Hidden until logged in) -->
+        <div id="dashboardWrapper" class="hidden">
+            <!-- Navigation Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-welcome">
+                    <span>স্বাগতম, <strong>এডমিনিস্ট্রেটর</strong></span>
+                </div>
+                <div class="toolbar-actions">
+                    <button id="btnExport" class="btn btn-secondary" title="ডাটাবেজ ফাইল (.js) এক্সপোর্ট করুন">
+                        <i class="fa-solid fa-file-export text-orange"></i>
+                        <span>Export data.js</span>
+                    </button>
+                    <button id="btnLogout" class="btn btn-secondary">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>লগআউট</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fa-solid fa-users stat-icon"></i>
+                    <div class="stat-content">
+                        <span class="stat-value" id="statTotal">0</span>
+                        <span class="stat-label">মোট রানার</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-shirt stat-icon"></i>
+                    <div class="stat-content">
+                        <span class="stat-value" id="statSizes">0</span>
+                        <span class="stat-label">সাইজ ডেটা সম্পন্ন</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-circle-check stat-icon text-success"></i>
+                    <div class="stat-content">
+                        <span class="stat-value" id="statActive">0</span>
+                        <span class="stat-label">সফল রেজিস্ট্রেশন</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid (Add Form & Table) -->
+            <div class="admin-content-grid">
+                <!-- Add Runner Form -->
+                <div class="main-card form-card">
+                    <h3 class="section-title"><i class="fa-solid fa-user-plus"></i> নতুন রানার যুক্ত করুন</h3>
+                    <form id="addRunnerForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="runnerName">রানার নাম *</label>
+                                <input type="text" id="runnerName" placeholder="যেমন: Fahim Ahmed" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="runnerPhone">ফোন নম্বর *</label>
+                                <input type="tel" id="runnerPhone" placeholder="যেমন: 01712345678" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="runnerEmail">ইমেইল</label>
+                                <input type="email" id="runnerEmail" placeholder="যেমন: email@domain.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="runnerTx">ট্রানজেকশন আইডি</label>
+                                <input type="text" id="runnerTx" placeholder="যেমন: DGI8H5CIGA">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="runnerBib">BIB নম্বর *</label>
+                                <input type="text" id="runnerBib" placeholder="যেমন: 854" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="runnerSize">টি-শার্ট সাইজ *</label>
+                                <select id="runnerSize" required>
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="2XL">2XL</option>
+                                    <option value="3XL">3XL</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-search w-full justify-center">
+                            <span>সংরক্ষণ করুন</span>
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Runners List Table -->
+                <div class="main-card table-card">
+                    <div class="table-header-area">
+                        <h3 class="section-title"><i class="fa-solid fa-list"></i> রানার তালিকা</h3>
+                        <div class="table-search-wrapper">
+                            <i class="fa-solid fa-magnifying-glass table-search-icon"></i>
+                            <input type="text" id="tableSearch" placeholder="নাম, ফোন বা BIB দিয়ে খুঁজুন...">
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="runners-table">
+                            <thead>
+                                <tr>
+                                    <th>BIB</th>
+                                    <th>রানার নাম</th>
+                                    <th>ফোন নম্বর</th>
+                                    <th>টি-শার্ট সাইজ</th>
+                                    <th>ইমেইল</th>
+                                    <th>ট্রানজেকশন আইডি</th>
+                                    <th>অ্যাকশন</th>
+                                </tr>
+                            </thead>
+                            <tbody id="runnersTableBody">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Back Link -->
+        <div class="back-link-area">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> সার্চ পেজে ফিরে যান</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
