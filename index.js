@@ -159,9 +159,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (cleanRunnerPhone.slice(-10) === cleanQuery.slice(-10)) return true;
             }
 
-            // Fallback: search query is contained within stored number (or vice-versa) for shorter inputs
+            // Fallback: search query is contained within stored number (or vice-versa) for shorter/longer inputs
             if (cleanQuery.length >= 6) {
-                if (cleanRunnerPhone.endsWith(cleanQuery) || cleanQuery.endsWith(cleanRunnerPhone)) {
+                if (cleanRunnerPhone.includes(cleanQuery) || cleanQuery.includes(cleanRunnerPhone)) {
+                    return true;
+                }
+                
+                // Also match last 10 digits if query is a substring of stored number
+                const last10Query = cleanQuery.slice(-10);
+                if (cleanRunnerPhone.includes(last10Query)) {
                     return true;
                 }
             }

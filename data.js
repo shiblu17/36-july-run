@@ -1,4 +1,4 @@
-const dbVersion = "1785504743780";
+const dbVersion = "1785522133173";
 const registrations = [
   { tx: "", name: "Rajinur Piyal", email: "rajinurislam333@gmail.com", phone: "01785386704", size: "M", bib: "5001", verify: "YES" },
   { tx: "", name: "Gulzar Islam Mahir", email: "gimahir25@gmail.com", phone: "01768173364", size: "L", bib: "5002", verify: "YES" },
@@ -88,7 +88,7 @@ const registrations = [
   { tx: "", name: "Maliha Laheen", email: "20240659104laheen@juniv.edu", phone: "01618576663", size: "3XL", bib: "5087", verify: "YES" },
   { tx: "", name: "Sudipta Paul Durjoy", email: "spdurjoy4@gmail.com", phone: "01716916618", size: "L", bib: "5088", verify: "YES" },
   { tx: "", name: "Md. Tawhidul Islam", email: "tawhidulislamju52@gmail.com", phone: "01778158084", size: "L", bib: "5089", verify: "YES" },
-  { tx: "", name: "Charcha Talukder", email: "20240659113charcha@juniv.edu", phone: "017797190223", size: "3xl", bib: "5090", verify: "YES" },
+  { tx: "", name: "Charcha Talukder", email: "20240659113charcha@juniv.edu", phone: "01779719022", size: "3xl", bib: "5090", verify: "YES" },
   { tx: "", name: "Muntasir Adib", email: "mmadib2001@gmail.com", phone: "01722194398", size: "XL", bib: "5091", verify: "YES" },
   { tx: "", name: "Nowshin Ahad", email: "nowshinahad21@gmail.com", phone: "01316464668", size: "XL", bib: "5092", verify: "YES" },
   { tx: "", name: "রবি", email: "mdrobi596316@gmail.com", phone: "01855506838", size: "XL", bib: "5093", verify: "YES" },
